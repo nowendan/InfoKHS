@@ -13,6 +13,8 @@
       <p class="title">Informasi Mahasiswa</p>
       <p class="subtitle">Universitas Muhammadiyah Malang</p>
 
+      <div id="error">hahah</div>
+
       <form class="form" @submit.prevent="handleSubmit">
         <input v-model="form.nim" type="text" placeholder="NIM" class="input" />
 
@@ -47,11 +49,9 @@ const form = ref({
   pic: "",
 });
 
-const errorMessage = ref("");
-
 const handleSubmit = async () => {
   try {
-    const response = await fetch("http://192.168.0.27:8000/api/login", {
+    const response = await fetch("http://192.168.0.2:8000/api/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -64,15 +64,15 @@ const handleSubmit = async () => {
     });
 
     const data_user = await response.json();
-    console.log("API response =>", data_user);
-
     if (!response.ok) {
-      errorMessage.value = data_user.message || "Login gagal!";
+      const err_display = document.getElementById("error");
+      err_display.style.display = "block";
+      err_display.innerText = data_user.message || "Login gagal!";
       return;
     }
 
     const jadwal = await fetch(
-      `http://192.168.0.27:8000/api/Jadwal/${form.value.nim}`,
+      `http://192.168.0.2:8000/api/Jadwal/${form.value.nim}`,
       {
         method: "GET",
         headers: {
@@ -82,9 +82,6 @@ const handleSubmit = async () => {
     );
 
     const data_jadwal = await jadwal.json();
-    console.log("API response =>", data_jadwal);
-
-    console.log(jadwal.ok);
 
     if (!jadwal.ok) {
       errorMessage.value = data_jadwal.message || "Login gagal!";
@@ -100,7 +97,7 @@ const handleSubmit = async () => {
     // redirect setelah login berhasil
     router.push("/profile");
   } catch (err) {
-    errorMessage.value = "Terjadi kesalahan jaringan!";
+    err_display.value = "Terjadi kesalahan jaringan!";
   }
 };
 </script>
@@ -163,6 +160,16 @@ const handleSubmit = async () => {
   margin: 2px 0 22px;
   font-size: 12px;
   color: #3f51b5;
+}
+
+#error {
+  display: none;
+  color: #e9edef;
+  background-color: rgba(231, 76, 60, 0.88);
+  border-color: rgba(231, 76, 60, 0.88);
+  padding: 15px;
+  border-radius: 6px;
+  margin: 2px 0 22px;
 }
 
 /* FORM */

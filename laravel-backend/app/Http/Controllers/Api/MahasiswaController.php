@@ -33,8 +33,8 @@ class MahasiswaController extends Controller
     if (!$user || !Hash::check($request->pin_login, $user->pin_login)) {
         return response()->json([
             'success' => false,
-            'message' => 'Akun tidak ditemukan!',
-        ], 404);
+            'message' => 'NIM atau PIC salah!',
+        ], 401);
     }
 
     return new MahasiswaResource(true, 'Detail akun', $user);

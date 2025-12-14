@@ -127,7 +127,11 @@
                   row.kelas_kuliah_baru.jam_mulai <=
                     new Date().toTimeString().slice(0, 8) &&
                   row.kelas_kuliah_baru.jam_selesai >=
-                    new Date().toTimeString().slice(0, 8)
+                    new Date().toTimeString().slice(0, 8) &&
+                  row.kelas_kuliah_baru.hari ==
+                    new Intl.DateTimeFormat('id-ID', { weekday: 'long' })
+                      .format(new Date())
+                      .toUpperCase()
                 "
                 class="btn-presensi"
                 @click="presensi(row)"
@@ -183,7 +187,7 @@ onMounted(() => {
   intervalId = setInterval(async () => {
     try {
       const res = await fetch(
-        `http://192.168.0.27:8000/api/Jadwal/${user.value.nim}`
+        `http://192.168.0.2:8000/api/Jadwal/${user.value.nim}`
       );
       const data = await res.json();
       localStorage.setItem("jadwal", JSON.stringify(data.data));
@@ -252,7 +256,7 @@ async function presensi(row) {
   const tanggalWaktu = `${tanggal} ${waktu}`;
   console.log(tanggalWaktu);
   try {
-    const res = await fetch(`http://192.168.0.27:8000/api/presensi`, {
+    const res = await fetch(`http://192.168.0.2:8000/api/presensi`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

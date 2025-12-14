@@ -3,7 +3,8 @@ import { ref, onMounted } from "vue";
 import NotificationJadwal from "../../components/notificationJadwal.vue";
 
 const user = ref(null);
-const showNotification = ref(true);
+const jadwal = ref(null);
+const showNotification = ref(false);
 
 import { Bar } from "vue-chartjs";
 import {
@@ -22,7 +23,19 @@ onMounted(() => {
   if (storedUser) {
     user.value = JSON.parse(storedUser);
   }
-  console.log(user.value);
+  const storedJadwal = localStorage.getItem("jadwal");
+  if (storedJadwal) {
+    jadwal.value = JSON.parse(storedJadwal);
+    for (let i = 0; i < jadwal.value.length; i++) {
+      if (
+        jadwal.value[i].kelas_kuliah_baru.id !=
+        jadwal.value[i].kelas_kuliah_lama.id
+      ) {
+        showNotification.value = true;
+        break;
+      }
+    }
+  }
 });
 
 const ipLabels = [

@@ -92,7 +92,6 @@ onMounted(() => {
   if (storedUser) {
     user.value = JSON.parse(storedUser);
   }
-  console.log(user.value);
 });
 function toggleSidebar() {
   isSidebarOpen.value = !isSidebarOpen.value;
@@ -258,7 +257,7 @@ main.full {
   cursor: pointer;
   user-select: none;
   position: relative;
-  height: 50%;
+  height: auto;
   width: auto;
   padding: 0 10px;
   box-shadow: 0 1px 1px rgba(15, 23, 42, 0.45);

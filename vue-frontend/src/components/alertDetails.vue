@@ -99,7 +99,7 @@ const emit = defineEmits(["close"]);
 async function tutup() {
   try {
     const res = await fetch(
-      `http://192.168.0.27:8000/api/Jadwal/${props.data?.id}`,
+      `http://192.168.0.2:8000/api/Jadwal/${props.data?.id}`,
       {
         method: "POST",
         headers: {
